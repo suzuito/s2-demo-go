@@ -8,5 +8,6 @@ func FnPointFromLatLng() gin.HandlerFunc {
 		if err != nil {
 			abortError(ctx, err)
 		}
+
 	}
 }
