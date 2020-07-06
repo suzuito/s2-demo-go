@@ -3,5 +3,6 @@
 ##
 
 ```
+source ../dev
 go build -o main && ./main
 ```
