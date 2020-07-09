@@ -1,3 +1,3 @@
 export ALLOW_ORIGINS=http://localhost:4200
-export ALLOW_METHODS=GET
-export ALLOW_HEADERS=X-S2-Demo-Token
+export ALLOW_METHODS=GET,POST
+export ALLOW_HEADERS=X-S2-Demo-Token,Content-type

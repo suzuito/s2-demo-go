@@ -20,7 +20,8 @@ func abortError(ctx *gin.Context, err error) {
 	switch v := err.(type) {
 	case *httpError:
 		ctx.AbortWithStatus(v.code)
-	default:
-		ctx.AbortWithStatus(http.StatusInternalServerError)
+		return
 	}
+	ctx.AbortWithStatus(http.StatusInternalServerError)
+	return
 }
