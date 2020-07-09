@@ -19,3 +19,15 @@ func NewGeometryFromLoop(l *s2.Loop) *geojson.Geometry {
 	g := geojson.NewPolygonGeometry([][][]float64{p})
 	return g
 }
+
+// NewS2LoopFromGeometry ...
+func NewS2LoopFromGeometry(polygon [][]float64) *s2.Loop {
+	points := []s2.Point{}
+	for _, p := range polygon {
+		a := s2.LatLngFromDegrees(p[1], p[0])
+		point := s2.PointFromLatLng(a)
+		points = append(points, point)
+	}
+	loop := s2.LoopFromPoints(points)
+	return loop
+}

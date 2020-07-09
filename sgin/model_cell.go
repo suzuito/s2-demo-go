@@ -6,11 +6,13 @@ import (
 	"github.com/suzuito/s2-demo-go/s2geojson"
 )
 
+// LatLngLiteral ...
 type LatLngLiteral struct {
 	Lat float64 `json:"lat"`
 	Lng float64 `json:"lng"`
 }
 
+// NewS2LoopFromLatLngLiteralArray ...
 func NewS2LoopFromLatLngLiteralArray(a []LatLngLiteral) *s2.Loop {
 	points := []s2.Point{}
 	for _, v := range a {
@@ -24,6 +26,19 @@ func NewS2LoopFromLatLngLiteralArray(a []LatLngLiteral) *s2.Loop {
 	return s2.LoopFromPoints(points)
 }
 
+// NewLatLngLiteralArrayFromS2Loop ...
+func NewLatLngLiteralArrayFromS2Loop(l *s2.Loop) *[]LatLngLiteral {
+	ret := []LatLngLiteral{}
+	for _, v := range l.Vertices() {
+		latlng := s2.LatLngFromPoint(v)
+		ret = append(ret, LatLngLiteral{
+			Lat: latlng.Lat.Degrees(),
+			Lng: latlng.Lng.Degrees(),
+		})
+	}
+	return &ret
+}
+
 // CellLiteral ...
 type CellLiteral struct {
 	ID         string           `json:"id"`
@@ -33,6 +48,7 @@ type CellLiteral struct {
 	ApproxArea float64          `json:"approxArea"`
 }
 
+// NewCellLiteralFromCell ...
 func NewCellLiteralFromCell(c s2.Cell) *CellLiteral {
 	cid := c.ID()
 	center := s2.LatLngFromPoint(c.Center())
@@ -50,6 +66,7 @@ func NewCellLiteralFromCell(c s2.Cell) *CellLiteral {
 	}
 }
 
+// NewCellLiteralsFromCellIDs ...
 func NewCellLiteralsFromCellIDs(cellIDs []s2.CellID) *[]*CellLiteral {
 	res := []*CellLiteral{}
 	for _, cellID := range cellIDs {
