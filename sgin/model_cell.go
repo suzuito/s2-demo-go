@@ -46,12 +46,14 @@ type CellLiteral struct {
 	Center     LatLngLiteral    `json:"center"`
 	Level      int              `json:"level"`
 	ApproxArea float64          `json:"approxArea"`
+	Points     []s2.Point       `json:"points"`
 }
 
 // NewCellLiteralFromCell ...
 func NewCellLiteralFromCell(c s2.Cell) *CellLiteral {
 	cid := c.ID()
 	center := s2.LatLngFromPoint(c.Center())
+	points := s2.LoopFromCell(c).Vertices()
 	return &CellLiteral{
 		ID: cid.ToToken(),
 		GeoJSON: geojson.NewFeature(
@@ -63,6 +65,7 @@ func NewCellLiteralFromCell(c s2.Cell) *CellLiteral {
 		},
 		Level:      c.Level(),
 		ApproxArea: c.ApproxArea(),
+		Points:     points,
 	}
 }
 

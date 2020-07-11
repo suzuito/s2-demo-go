@@ -25,6 +25,10 @@ func CellUnionRegionCoverer() gin.HandlerFunc {
 			abortError(ctx, err)
 			return
 		}
+		if body.MaxCells > 1000 {
+			abortError(ctx, fmt.Errorf("Too large maxCells"))
+			return
+		}
 		coverer := s2.RegionCoverer{
 			MinLevel: 10,
 			MaxLevel: body.MaxLevel,
