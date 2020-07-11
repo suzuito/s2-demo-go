@@ -13,7 +13,5 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY_GODZILLA }}
-      - run: echo $GCP_SA_KEY_GODZILLA > /tmp/$CI_PIPELINE_ID.json
-      - run: gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
       - run: gcloud builds submit --project=s2-demo-godzilla --config=cloudbuild.yml
       - run: gcloud run deploy s2-demo-go --image gcr.io/s2-demo-godzilla/go --platform managed --region asia-northeast1 --project s2-demo-godzilla --set-env-vars="`cat godzilla | tr '\n' ','`" --service-account=cd-207@s2-demo-godzilla.iam.gserviceaccount.com
