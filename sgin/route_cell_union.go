@@ -18,6 +18,7 @@ func CellUnionRegionCoverer() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		body := struct {
 			MaxLevel int `json:"maxLevel"`
+			MinLevel int `json:"minLevel"`
 			LevelMod int `json:"levelMod"`
 			MaxCells int `json:"maxCells"`
 		}{}
@@ -29,8 +30,16 @@ func CellUnionRegionCoverer() gin.HandlerFunc {
 			abortError(ctx, fmt.Errorf("Too large maxCells"))
 			return
 		}
+		if body.MinLevel > 15 {
+			abortError(ctx, fmt.Errorf("Too large minLevel"))
+			return
+		}
+		if body.MaxLevel > 20 {
+			abortError(ctx, fmt.Errorf("Too large maxLevel"))
+			return
+		}
 		coverer := s2.RegionCoverer{
-			MinLevel: 10,
+			MinLevel: body.MinLevel,
 			MaxLevel: body.MaxLevel,
 			MaxCells: body.MaxCells,
 			LevelMod: body.LevelMod,
