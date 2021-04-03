@@ -3,6 +3,7 @@ module github.com/suzuito/s2-demo-go
 go 1.13
 
 require (
+	github.com/cosmtrek/air v1.21.2 // indirect
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.6.3
 	github.com/giulioungaretti/geo v0.0.0-20160531110354-d7e51784f475

@@ -1,8 +1,7 @@
 # s2-demo-go
 
-##
+## Developments
 
 ```
-source ../dev
-go build -o main && ./main
+make start-api
 ```

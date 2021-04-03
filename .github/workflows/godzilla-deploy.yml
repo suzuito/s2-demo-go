@@ -4,14 +4,21 @@ on:
     branches:
       - master
 
+env:
+  GCP_PROJECT_ID: s2-demo-godzilla
+
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@master
         with:
+          project_id: ${GCP_PROJECT_ID}
           service_account_key: ${{ secrets.GCP_SA_KEY_GODZILLA }}
-      - run: gcloud builds submit --project=s2-demo-godzilla --config=cloudbuild.yml
-      - run: gcloud run deploy s2-demo-go --image gcr.io/s2-demo-godzilla/go --platform managed --region asia-northeast1 --project s2-demo-godzilla --set-env-vars ALLOW_ORIGINS=https://s2-demo-godzilla.web.app --service-account cd-207@s2-demo-godzilla.iam.gserviceaccount.com
+          export_default_credentials: true
+      - run: sudo apt-get install gettext-base
+      - run: envsubst '${GITHUB_SHA}' < main_api/service-godzilla.yml > k.yml
+      - run: gcloud builds submit --tag gcr.io/${GCP_PROJECT_ID}/go
+      - run: gcloud --quiet beta run services replace k.yml --platform managed --region asia-northeast1
