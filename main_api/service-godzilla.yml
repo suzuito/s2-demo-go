@@ -19,4 +19,4 @@ spec:
           value: https://s2-demo-godzilla.web.app
         - name: GH_SHA
           value: ${GITHUB_SHA}
-        command: ['./api.exe']
+        command: ['/app/main_api/main']
