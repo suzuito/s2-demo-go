@@ -11,7 +11,7 @@ import (
 func main() {
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{os.Getenv("ALLOW_ORIGINS")},
+		AllowOrigins: []string{os.Getenv("ALLOWED_ORIGINS")},
 		AllowMethods: []string{"GET", "POST"},
 		AllowHeaders: []string{"Content-type"},
 	}))
