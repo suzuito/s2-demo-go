@@ -9,7 +9,7 @@ spec:
         autoscaling.knative.dev/maxScale: '1'
     spec:
       containers:
-      - image: gcr.io/s2-demo-godzilla/api:latest
+      - image: gcr.io/s2-demo-godzilla/go:latest
         resources:
           limits:
             memory: 256Mi
