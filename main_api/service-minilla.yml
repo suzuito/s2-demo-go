@@ -9,7 +9,7 @@ spec:
         autoscaling.knative.dev/maxScale: '1'
     spec:
       containers:
-      - image: gcr.io/s2-demo-minilla/api:latest
+      - image: gcr.io/s2-demo-minilla/go:latest
         resources:
           limits:
             memory: 256Mi
@@ -19,4 +19,4 @@ spec:
           value: https://s2-demo-minilla.web.app
         - name: GH_SHA
           value: ${GITHUB_SHA}
-        command: ['./api.exe']
+        command: ['/app/main_api/main']
