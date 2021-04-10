@@ -16,7 +16,7 @@ spec:
             cpu: 1000m
         env:
         - name: ALLOWED_ORIGINS
-          value: https://suzuito-godzilla.web.app
+          value: https://s2-sandbox.tach.dev
         - name: GH_SHA
           value: ${GITHUB_SHA}
         command: ['/app/main_api/main']
