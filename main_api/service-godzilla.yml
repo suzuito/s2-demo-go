@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: api
+  name: s2-demo-api
 spec:
   template:
     metadata:
@@ -9,14 +9,14 @@ spec:
         autoscaling.knative.dev/maxScale: '1'
     spec:
       containers:
-      - image: gcr.io/s2-demo-godzilla/go:latest
+      - image: gcr.io/suzuito-godzilla/s2-demo-api:latest
         resources:
           limits:
             memory: 256Mi
             cpu: 1000m
         env:
         - name: ALLOWED_ORIGINS
-          value: https://s2-demo-godzilla.web.app
+          value: https://s2-sandbox.tach.dev
         - name: GH_SHA
           value: ${GITHUB_SHA}
         command: ['/app/main_api/main']
