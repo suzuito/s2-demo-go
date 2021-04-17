@@ -26,4 +26,11 @@ func main() {
 	fmt.Printf("緯度=%f 経度=%f（ラジアン表現）誤\n", l.Lat, l.Lng)
 	fmt.Printf("緯度=%f 経度=%f（度数表現）誤\n", l.Lat.Degrees(), l.Lng.Degrees())
 	fmt.Printf("IsValid=%v\n", l.IsValid())
+
+	// LatLngの比較演算
+	l1 := s2.LatLngFromDegrees(35.6938, 139.7034)
+	l2 := s2.LatLngFromDegrees(35.6938, 139.7034)
+	l3 := s2.LatLngFromDegrees(38.2682, 140.8694)
+	fmt.Printf("l1 === l2 %v\n", l1.ApproxEqual(l2))
+	fmt.Printf("l1 === l3 %v\n", l1.ApproxEqual(l3))
 }
