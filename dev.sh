@@ -1,1 +1,1 @@
-export ALLOW_ORIGINS=http://localhost:4200
+export ALLOWED_ORIGINS=http://localhost:4200
