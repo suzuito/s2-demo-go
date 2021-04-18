@@ -1,23 +1,32 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/golang/geo/s2"
 	"github.com/suzuito/s2-demo-go/s2geojson"
 )
 
-func main() {
-	sapporo := s2.PointFromLatLng(s2.LatLngFromDegrees(43.0618, 141.3545))
-	tokyo := s2.PointFromLatLng(s2.LatLngFromDegrees(35.6804, 139.7690))
-	fukuoka := s2.PointFromLatLng(s2.LatLngFromDegrees(33.5902, 130.4017))
+func dirToName(d s2.Direction) string {
+	if d == s2.Clockwise {
+		return "時計回り"
+	}
+	if d == s2.CounterClockwise {
+		return "反時計回り"
+	}
+	return "不定"
+}
 
-	s2geojson.Fprint(
-		os.Stdout,
-		&[]s2.Point{
-			sapporo,
-			tokyo,
-			fukuoka,
-		},
-	)
+func main() {
+	a := s2.PointFromLatLng(s2.LatLngFromDegrees(43.0618, 141.3545)) // 札幌
+	b := s2.PointFromLatLng(s2.LatLngFromDegrees(35.6804, 139.7690)) // 東京
+	c := s2.PointFromLatLng(s2.LatLngFromDegrees(33.5902, 130.4017)) // 福岡
+
+	fmt.Printf("東京->札幌->福岡 %s\n", dirToName(s2.RobustSign(b, a, c)))
+	fmt.Printf("東京->札幌->福岡 OrderedCCW: %v\n", s2.OrderedCCW(b, a, c, s2.OriginPoint()))
+	fmt.Printf("東京->福岡->札幌 %s\n", dirToName(s2.RobustSign(b, c, a)))
+	fmt.Printf("東京->福岡->札幌 OrderedCCW: %v\n", s2.OrderedCCW(b, c, a, s2.OriginPoint()))
+
+	s2geojson.Fprint(os.Stdout, &[]s2.Point{b, c, a})
 }
