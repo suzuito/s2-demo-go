@@ -26,9 +26,9 @@ func main() {
 	fmt.Printf("東京->福岡->札幌 %s\n", dirToName(s2.RobustSign(b, c, a)))
 
 	o := s2.PointFromLatLng(s2.LatLngFromDegrees(43.1332, 131.9113)) // ウラジオストク
-	fmt.Printf("ウラジオストクからみた 東京->札幌->福岡 OrderedCCW: %v\n",
+	fmt.Printf("東京->札幌->福岡 は、ウラジオストクから見たとき、反時計回りですか？ %v\n",
 		s2.OrderedCCW(b, a, c, o))
-	fmt.Printf("東京からみた ウラジオストク->札幌->福岡 OrderedCCW: %v\n",
+	fmt.Printf("ウラジオストク->札幌->福岡 は、東京から見たとき、反時計回りですか？ %v\n",
 		s2.OrderedCCW(o, a, c, b))
 
 	s2geojson.Print(&[]s2.Point{b, c, a, o})
