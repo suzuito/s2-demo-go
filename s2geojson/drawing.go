@@ -3,6 +3,7 @@ package s2geojson
 import (
 	"fmt"
 	"io"
+	"os"
 
 	"github.com/golang/geo/s2"
 	geojson "github.com/paulmach/go.geojson"
@@ -19,6 +20,17 @@ func DrawAsGeoJSON(
 		fc.Features = append(fc.Features, f)
 	}
 	return fc
+}
+
+func Print(
+	points *[]s2.Point,
+) error {
+	filePath := os.Getenv("FILE_PATH_GEOJSON")
+	f, err := os.Open(filePath)
+	if err != nil {
+		return xerrors.Errorf("Cannot open file : %w", err)
+	}
+	return Fprint(f, points)
 }
 
 func Fprint(

@@ -7,7 +7,4 @@ start-api:
 	source dev.sh && $(shell go env GOPATH)/bin/air -c .air-api.toml
 
 */*/result.txt: ${GO_SOURCES}
-	go run $(dir $@)/main.go | tee $@
-
-*/*/result.geojson: ${GO_SOURCES}
-	go run $(dir $@)/main.go | tee $@
+	FILE_PATH_GEOJSON=$(dir $@)/result.geojson go run $(dir $@)/main.go | tee $@

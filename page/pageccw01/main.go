@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/golang/geo/s2"
 	"github.com/suzuito/s2-demo-go/s2geojson"
@@ -32,5 +31,5 @@ func main() {
 	fmt.Printf("東京からみた ウラジオストク->札幌->福岡 OrderedCCW: %v\n",
 		s2.OrderedCCW(o, a, c, b))
 
-	s2geojson.Fprint(os.Stdout, &[]s2.Point{b, c, a, o})
+	s2geojson.Print(&[]s2.Point{b, c, a, o})
 }
