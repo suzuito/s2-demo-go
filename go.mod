@@ -15,6 +15,7 @@ require (
 	github.com/suzuito/common-go v0.0.0-20200128140735-e974e068b050
 	github.com/suzuito/wikipedia-on-map-go v0.0.0-20200203004811-50d3c9554880 // indirect
 	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect
+	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )

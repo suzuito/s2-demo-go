@@ -2,3 +2,5 @@ suzuito-godzilla-*.json
 main_api/main
 
 api.exe
+
+tmp/
