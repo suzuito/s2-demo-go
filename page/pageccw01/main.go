@@ -32,5 +32,5 @@ func main() {
 	fmt.Printf("東京からみた ウラジオストク->札幌->福岡 OrderedCCW: %v\n",
 		s2.OrderedCCW(o, a, c, b))
 
-	s2geojson.Fprint(os.Stdout, &[]s2.Point{b, c, a})
+	s2geojson.Fprint(os.Stdout, &[]s2.Point{b, c, a, o})
 }
