@@ -14,11 +14,9 @@ type uploadCmd struct {
 	dirPathArticle string
 }
 
-func newUploadCmd(
-	dirPathArticle string,
-) *uploadCmd {
+func newUploadCmd() *uploadCmd {
 	return &uploadCmd{
-		dirPathArticle: dirPathArticle,
+		dirPathArticle: "",
 	}
 }
 
