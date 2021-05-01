@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go/storage v1.10.0
+	github.com/cosmtrek/air v1.27.3 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.6.3
@@ -14,6 +15,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/paulmach/go.geojson v1.4.0
 	github.com/paulmach/orb v0.2.1
+	github.com/pelletier/go-toml v1.9.0 // indirect
 	github.com/suzuito/common-go v0.10.1-0.20210501121819-d1b08a66a402
 	golang.org/x/sys v0.0.0-20210426230700-d19ff857e887 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
