@@ -1,6 +1,8 @@
 package entity
 
-import geojson "github.com/paulmach/orb/geojson"
+import (
+	geojson "github.com/paulmach/orb/geojson"
+)
 
 type ArticleID string
 
