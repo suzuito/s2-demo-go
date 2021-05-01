@@ -1,1 +1,58 @@
-<mxfile host="app.diagrams.net" modified="2021-05-01T09:51:02.810Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36" version="14.6.9" etag="7yYNr8cP1CclUveRK7PT" type="github"><diagram id="jkX2GTD8OBWGuRavU_oS">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-05-01T09:58:50.185Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36" etag="FFfJq72PU2dPLvfR7O3_" version="14.6.9" type="github">
+  <diagram id="jkX2GTD8OBWGuRavU_oS" name="Page-1">
+    <mxGraphModel dx="865" dy="589" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-11" value="s2 demo service" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="130" y="60" width="310" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-1" target="GoZELs6VDet2JWhwV2Kz-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-1" value="API&lt;br&gt;GCR" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="190" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-2" target="GoZELs6VDet2JWhwV2Kz-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-2" target="GoZELs6VDet2JWhwV2Kz-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-2" value="Browser" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="380" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-3" target="GoZELs6VDet2JWhwV2Kz-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-3" target="GoZELs6VDet2JWhwV2Kz-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-3" value="Server&lt;br&gt;GCR" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="190" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-7" value="Static&lt;br&gt;GCS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="90" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-9" value="Prerenderer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="90" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-12" value="Article&lt;br&gt;GCS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="90" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-14" target="GoZELs6VDet2JWhwV2Kz-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-14" value="Writer environment&lt;br&gt;?" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="200" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="GoZELs6VDet2JWhwV2Kz-16" target="GoZELs6VDet2JWhwV2Kz-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GoZELs6VDet2JWhwV2Kz-16" value="Article repo&lt;br&gt;GitHub" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="85" width="100" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
