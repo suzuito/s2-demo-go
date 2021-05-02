@@ -7,6 +7,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/russross/blackfriday/v2"
+	"github.com/suzuito/s2-demo-go/entity"
 	"golang.org/x/xerrors"
 )
 
@@ -25,6 +26,11 @@ func convertAfterConvert(body []byte) (string, error) {
 		s.SetAttr("class", "code-block")
 		s.SetAttr("style", "width: 100%; overflow: scroll;")
 	})
+	for _, tagName := range entity.TagNamesForAnchor {
+		d.Find(tagName).Each(func(i int, s *goquery.Selection) {
+			s.SetAttr("id", s.Text())
+		})
+	}
 	returned, err := d.Html()
 	if err != nil {
 		return "", xerrors.Errorf("Cannot create goquery html : %w", err)

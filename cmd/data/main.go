@@ -15,6 +15,7 @@ func main() {
 	subcommands.Register(subcommands.FlagsCommand(), "")
 	subcommands.Register(subcommands.CommandsCommand(), "")
 	subcommands.Register(newBuildCmd(), "")
+	subcommands.Register(newBuildIndexCmd(), "")
 	flag.Parse()
 
 	os.Exit(int(subcommands.Execute(ctx)))

@@ -24,6 +24,19 @@ func NewResponseArticle(a *entity.Article) *ResponseArticle {
 	}
 }
 
+func (r *ResponseArticle) Entity() *entity.Article {
+	blocks := []entity.ArticleBlock{}
+	for _, a := range r.Blocks {
+		blocks = append(blocks, *a.Entity())
+	}
+	return &entity.Article{
+		ID:          r.ID,
+		Title:       r.Title,
+		Description: r.Description,
+		Blocks:      blocks,
+	}
+}
+
 type ResponseArticleBlock struct {
 	ID                  entity.ArticleBlockID   `json:"id"`
 	Type                entity.ArticleBlockType `json:"type"`
@@ -44,10 +57,21 @@ func NewResponseArticleBlock(ab *entity.ArticleBlock) *ResponseArticleBlock {
 	}
 }
 
+func (r *ResponseArticleBlock) Entity() *entity.ArticleBlock {
+	return &entity.ArticleBlock{
+		ID:                      r.ID,
+		Type:                    r.Type,
+		PathText:                r.Text,
+		PathSource:              r.Source,
+		PathSourceResult:        r.SourceResult,
+		PathSourceResultGeoJSON: r.SourceResultGeoJSON,
+	}
+}
+
 type ResponseArticleListItem struct {
-	Title       string                    `json:"title"`
-	Description string                    `json:"description"`
-	Children    []ResponseArticleListItem `json:"children"`
+	Path     string                    `json:"path"`
+	Anchor   string                    `json:"anchor"`
+	Children []ResponseArticleListItem `json:"children"`
 }
 
 func NewResponseArticleListItem(a *entity.ArticleListItem) *ResponseArticleListItem {
@@ -56,8 +80,8 @@ func NewResponseArticleListItem(a *entity.ArticleListItem) *ResponseArticleListI
 		children = append(children, *NewResponseArticleListItem(&b))
 	}
 	return &ResponseArticleListItem{
-		Title:       a.Title,
-		Description: a.Description,
-		Children:    children,
+		Path:     a.Path,
+		Anchor:   a.Anchor,
+		Children: children,
 	}
 }

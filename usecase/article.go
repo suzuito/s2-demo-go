@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -148,12 +147,92 @@ func writeFileObjects(files map[string]interface{}) error {
 
 func BuildIndexToLocal(
 	dirPath string,
+	root *entity.ArticleListItem,
 ) error {
-	if err := filepath.Walk(dirPath, func(dirPathArticleBlock string, info1 os.FileInfo, _ error) error {
-		fmt.Println(dirPath)
-		return nil
-	}); err != nil {
-		return xerrors.Errorf("Cannot walk : %w", err)
+	files, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		return xerrors.Errorf("Cannot open dir '%s' : %w", dirPath, err)
+	}
+	for _, file1 := range files {
+		if !file1.IsDir() {
+			continue
+		}
+		dirPathArticle := filepath.Join(dirPath, file1.Name())
+		filesArticle, err := ioutil.ReadDir(dirPathArticle)
+		if err != nil {
+			return xerrors.Errorf("Cannot open dir '%s' : %w", dirPathArticle, err)
+		}
+		var article *entity.Article
+		var articleHTMLBytes []byte
+		blockArticleHTMLBytesList := [][]byte{}
+		for _, file2 := range filesArticle {
+			filePath := filepath.Join(dirPathArticle, file2.Name())
+			if file2.IsDir() {
+				blockArticleHTMLBytes, err := readBlockArticleBytes(filePath)
+				if err != nil {
+					return xerrors.Errorf("Cannot read : %w", err)
+				}
+				if blockArticleHTMLBytes != nil {
+					blockArticleHTMLBytesList = append(blockArticleHTMLBytesList, blockArticleHTMLBytes)
+				}
+				continue
+			}
+			if file2.Name() != "article.json" && file2.Name() != "article.html" {
+				continue
+			}
+			fileBytes, err := ioutil.ReadFile(filePath)
+			if err != nil {
+				return xerrors.Errorf("Cannot open file '%s' : %w", filePath, err)
+			}
+			switch file2.Name() {
+			case "article.json":
+				rArticle := ResponseArticle{}
+				if err := json.Unmarshal(fileBytes, &rArticle); err != nil {
+					return xerrors.Errorf("Cannot unmarshal file '%s' : %w", filePath, err)
+				}
+				article = rArticle.Entity()
+			case "article.html":
+				articleHTMLBytes = fileBytes
+			default:
+				return xerrors.Errorf("Unsupported file '%s'", filePath)
+			}
+		}
+		if article == nil {
+			return xerrors.Errorf("Article is not found on dir '%s'", dirPathArticle)
+		}
+		articleListItem := entity.NewArticleListItemFromArticle(article)
+		if articleHTMLBytes != nil {
+			children, err := entity.NewArticleListFromHTML(articleListItem.Path, bytes.NewReader(articleHTMLBytes))
+			if err != nil {
+				return xerrors.Errorf("Cannot new article list from html : %w", err)
+			}
+			articleListItem.Children = children
+		}
+		for _, blockArticleHTMLBytes := range blockArticleHTMLBytesList {
+			children, err := entity.NewArticleListFromHTML(articleListItem.Path, bytes.NewReader(blockArticleHTMLBytes))
+			if err != nil {
+				return xerrors.Errorf("Cannot new article list from html : %w", err)
+			}
+			articleListItem.Children = append(articleListItem.Children, children...)
+		}
+		root.Children = append(root.Children, *articleListItem)
 	}
 	return nil
+}
+
+func readBlockArticleBytes(
+	dirPathBlock string,
+) ([]byte, error) {
+	filePathBlockArticle := filepath.Join(dirPathBlock, "article.html")
+	if _, err := os.Stat(filePathBlockArticle); err != nil {
+		if os.IsNotExist(err) {
+			return nil, nil
+		}
+		return nil, xerrors.Errorf("Cannot stat '%s' : %w", filePathBlockArticle, err)
+	}
+	bytesBlockArticle, err := ioutil.ReadFile(filePathBlockArticle)
+	if err != nil {
+		return nil, xerrors.Errorf("Cannot open file '%s' : %w", filePathBlockArticle, err)
+	}
+	return bytesBlockArticle, nil
 }

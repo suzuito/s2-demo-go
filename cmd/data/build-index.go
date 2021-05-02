@@ -2,11 +2,15 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"github.com/google/subcommands"
+	"github.com/suzuito/s2-demo-go/entity"
 	"github.com/suzuito/s2-demo-go/usecase"
 )
 
@@ -35,7 +39,21 @@ func (c *buildIndexCmd) Execute(ctx context.Context, f *flag.FlagSet, _ ...inter
 		fmt.Fprintf(os.Stderr, "dirPathArticles is empty\n")
 		return subcommands.ExitUsageError
 	}
-	if err := usecase.BuildIndexToLocal(c.dirPathArticles); err != nil {
+	root := entity.ArticleListItem{}
+	if err := usecase.BuildIndexToLocal(c.dirPathArticles, &root); err != nil {
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
+		return subcommands.ExitFailure
+	}
+	out, err := json.MarshalIndent(usecase.NewResponseArticleListItem(&root), "", " ")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
+		return subcommands.ExitFailure
+	}
+	if err := ioutil.WriteFile(
+		filepath.Join(c.dirPathArticles, "index.json"),
+		out,
+		0644,
+	); err != nil {
 		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		return subcommands.ExitFailure
 	}

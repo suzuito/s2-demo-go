@@ -7,7 +7,8 @@ data.exe: ${GO_SOURCES}
 	go build -o data.exe cmd/data/*.go
 
 data-build:
-	docker-compose exec -T env bash -c "make clean && make data.exe && ./data.exe build -input-article-dir ${DIR}"
+	docker-compose exec -T env bash -c "make clean && make data.exe"
+	docker-compose exec -T env bash -c "./data.exe build -input-article-dir ${DIR}"
 	./execute-sample-codes.sh ${DIR}
 	docker-compose exec -T env bash -c "./data.exe build-index -input-dir $(dir ${DIR})"
 

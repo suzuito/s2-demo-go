@@ -1,0 +1,53 @@
+{
+ "path": "",
+ "anchor": "",
+ "children": [
+  {
+   "path": "latlng",
+   "anchor": "",
+   "children": [
+    {
+     "path": "latlng",
+     "anchor": "概要",
+     "children": []
+    },
+    {
+     "path": "latlng",
+     "anchor": "s2.LatLng",
+     "children": []
+    },
+    {
+     "path": "latlng",
+     "anchor": "s2.LatLngFromDegrees",
+     "children": []
+    },
+    {
+     "path": "latlng",
+     "anchor": "s2.LatLng.IsValid",
+     "children": []
+    },
+    {
+     "path": "latlng",
+     "anchor": "s2.LatLng.String",
+     "children": []
+    },
+    {
+     "path": "latlng",
+     "anchor": "s2.LatLng.ApproxEqual",
+     "children": []
+    }
+   ]
+  },
+  {
+   "path": "summary",
+   "anchor": "",
+   "children": [
+    {
+     "path": "summary",
+     "anchor": "概要",
+     "children": []
+    }
+   ]
+  }
+ ]
+}
