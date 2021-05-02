@@ -2,8 +2,7 @@ set -e
 
 DIR=${1}
 
-ls ${DIR}/*/*.go > /dev/null
-
-for f in `ls ${DIR}/*/*.go`; do
-    echo ${f}
+for f in `find ${DIR} -type f -name "*.go"`; do
+    echo "---- ${f} ----"
+    make `dirname ${f}`/result.txt
 done
