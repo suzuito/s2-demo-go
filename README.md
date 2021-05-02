@@ -2,6 +2,10 @@
 
 ## Developments
 
+```bash
+docker-compose up
 ```
-make start-api
+
+```bash
+DIR=./data/article/summary make data-build
 ```

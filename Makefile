@@ -6,6 +6,12 @@ api.exe: ${GO_SOURCES}
 data.exe: ${GO_SOURCES}
 	go build -o data.exe cmd/data/*.go
 
+data-build:
+	docker-compose exec -T env bash -c "make clean && make data.exe && ./data.exe build -input-article-dir ${DIR}"
+
+rsync-godzilla:
+	gsutil rsync -r ./data/article gs://suzuito-godzilla-s2-demo-article
+
 */*/result.txt: ${GO_SOURCES}
 	FILE_PATH_GEOJSON=$(dir $@)/result.geojson go run $(dir $@)/main.go | tee $@
 
