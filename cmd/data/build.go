@@ -20,10 +20,10 @@ func newBuildCmd() *buildCmd {
 	}
 }
 
-func (c *buildCmd) Name() string     { return "upload" }
-func (c *buildCmd) Synopsis() string { return "Upload subcomment." }
+func (c *buildCmd) Name() string     { return "build" }
+func (c *buildCmd) Synopsis() string { return "Build subcomment." }
 func (c *buildCmd) Usage() string {
-	return "Upload subcomment.\n"
+	return "Build subcomment.\n"
 }
 
 func (c *buildCmd) SetFlags(f *flag.FlagSet) {
@@ -31,6 +31,10 @@ func (c *buildCmd) SetFlags(f *flag.FlagSet) {
 }
 
 func (c *buildCmd) Execute(ctx context.Context, f *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
+	if c.dirPathArticle == "" {
+		fmt.Fprintf(os.Stderr, "dirPathArticle is empty\n")
+		return subcommands.ExitUsageError
+	}
 	if err := usecase.BuildArticleToLocal(c.dirPathArticle); err != nil {
 		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		return subcommands.ExitFailure

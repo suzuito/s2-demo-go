@@ -43,7 +43,7 @@ func ConvertMarkdownToHTML(
 		blackfriday.WithRenderer(
 			blackfriday.NewHTMLRenderer(
 				blackfriday.HTMLRendererParameters{
-					Flags: blackfriday.TOC | blackfriday.HrefTargetBlank,
+					Flags: blackfriday.HrefTargetBlank,
 				},
 			),
 		),

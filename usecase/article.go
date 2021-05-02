@@ -71,7 +71,6 @@ func BuildArticle(
 		return xerrors.Errorf("Cannot build md to html : %w", err)
 	}
 	*article = *tmp
-	*bodyHTML = convertedMarkdown
 	return nil
 }
 
