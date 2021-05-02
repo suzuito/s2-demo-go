@@ -268,6 +268,7 @@ func UploadArticles(
 			return xerrors.Errorf("Cannot getUploadArticleFiles : %w", err)
 		}
 	}
+	uploadedFiles[fmt.Sprintf("%s/index.json", dirPath)] = "index.json"
 	for filePathSrc, filePathDst := range uploadedFiles {
 		bytesSrc, err := ioutil.ReadFile(filePathSrc)
 		if err != nil {
@@ -300,6 +301,33 @@ func getUploadArticleFiles(
 		}
 		filePathSrc := filepath.Join(dirPathArticle, fileInfo.Name())
 		filePathDst := filepath.Join(string(article.ID), fileInfo.Name())
+		(*r)[filePathSrc] = filePathDst
+	}
+	for _, block := range article.Blocks {
+		dirPathArticleBlock := filepath.Join(dirPathArticle, string(block.ID))
+		if err := getUploadArticleBlockFiles(dirPathArticleBlock, article.ID, block.ID, r); err != nil {
+			return xerrors.Errorf("Cannot getUploadArticleBlockFiles : %w", err)
+		}
+	}
+	return nil
+}
+
+func getUploadArticleBlockFiles(
+	dirPathArticleBlock string,
+	articleID entity.ArticleID,
+	articleBlockID entity.ArticleBlockID,
+	r *map[string]string,
+) error {
+	fileInfos, err := ioutil.ReadDir(dirPathArticleBlock)
+	if err != nil {
+		return xerrors.Errorf("Cannot ReadDir '%s' : %w", dirPathArticleBlock, err)
+	}
+	for _, fileInfo := range fileInfos {
+		if fileInfo.IsDir() {
+			continue
+		}
+		filePathSrc := filepath.Join(dirPathArticleBlock, fileInfo.Name())
+		filePathDst := filepath.Join(string(articleID), string(articleBlockID), fileInfo.Name())
 		(*r)[filePathSrc] = filePathDst
 	}
 	return nil

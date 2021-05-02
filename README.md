@@ -15,5 +15,5 @@ DIR=./data/article/summary make data-build
 ## Upload
 
 ```bash
-make rsync-godzilla
+DIR=./data/article make rsync-godzilla
 ```
