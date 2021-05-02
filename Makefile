@@ -16,8 +16,8 @@ data-build:
 	docker-compose exec -T env bash -c "FILE_PATH_GEOJSON=$(dir $@)/result.geojson go run $(dir $@)/main.go | tee $@"
 
 rsync-godzilla:
-	gsutil rsync -r ./data/article gs://suzuito-godzilla-s2-demo-article
-
+	# gsutil rsync -r ./data/article gs://suzuito-godzilla-s2-demo-article
+	docker-compose exec -T env bash -c "./data.exe upload -input-dir $(dir ${DIR})"
 
 clean:
 	rm *.exe

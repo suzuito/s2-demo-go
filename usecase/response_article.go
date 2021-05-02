@@ -69,9 +69,9 @@ func (r *ResponseArticleBlock) Entity() *entity.ArticleBlock {
 }
 
 type ResponseArticleListItem struct {
-	Path     string                    `json:"path"`
-	Anchor   string                    `json:"anchor"`
-	Children []ResponseArticleListItem `json:"children"`
+	ArticleID entity.ArticleID          `json:"articleId"`
+	Anchor    string                    `json:"anchor"`
+	Children  []ResponseArticleListItem `json:"children"`
 }
 
 func NewResponseArticleListItem(a *entity.ArticleListItem) *ResponseArticleListItem {
@@ -80,8 +80,8 @@ func NewResponseArticleListItem(a *entity.ArticleListItem) *ResponseArticleListI
 		children = append(children, *NewResponseArticleListItem(&b))
 	}
 	return &ResponseArticleListItem{
-		Path:     a.Path,
-		Anchor:   a.Anchor,
-		Children: children,
+		ArticleID: a.ArticleID,
+		Anchor:    a.Anchor,
+		Children:  children,
 	}
 }

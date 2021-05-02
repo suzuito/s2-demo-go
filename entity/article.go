@@ -23,21 +23,6 @@ type Article struct {
 	Draft       bool
 }
 
-type ArticleTOCLevel int
-
-const (
-	ArticleTOCLevelH1 ArticleTOCLevel = 1
-	ArticleTOCLevelH2 ArticleTOCLevel = 2
-	ArticleTOCLevelH3 ArticleTOCLevel = 3
-	ArticleTOCLevelH4 ArticleTOCLevel = 4
-	ArticleTOCLevelH5 ArticleTOCLevel = 5
-)
-
-type ArticleTOC struct {
-	Name  string
-	Level ArticleTOCLevel
-}
-
 type ArticleBlockType string
 
 const (

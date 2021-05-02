@@ -16,4 +16,10 @@ type ArticleStore interface {
 		articleID entity.ArticleID,
 		article *entity.Article,
 	) error
+
+	PutRawFile(
+		ctx context.Context,
+		bytesSrc []byte,
+		pathDst string,
+	) error
 }

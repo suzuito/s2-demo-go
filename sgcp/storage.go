@@ -90,3 +90,18 @@ func (s *ArticleStore) GetArticleList(
 ) error {
 	return xerrors.Errorf("Not impl")
 }
+
+func (s *ArticleStore) PutRawFile(
+	ctx context.Context,
+	bytesSrc []byte,
+	pathDst string,
+) error {
+	oh := s.cli.Bucket(s.bucket).Object(pathDst)
+	w := oh.NewWriter(ctx)
+	defer w.Close()
+	_, err := w.Write(bytesSrc)
+	if err != nil {
+		return xerrors.Errorf("Cannot write : %w", err)
+	}
+	return nil
+}

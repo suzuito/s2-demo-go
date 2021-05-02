@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -186,11 +187,9 @@ func BuildIndexToLocal(
 			}
 			switch file2.Name() {
 			case "article.json":
-				rArticle := ResponseArticle{}
-				if err := json.Unmarshal(fileBytes, &rArticle); err != nil {
-					return xerrors.Errorf("Cannot unmarshal file '%s' : %w", filePath, err)
+				if err := newArticleFromFile(filePath, article); err != nil {
+					return xerrors.Errorf("Cannot newArticleFrom file '%s' : %w", filePath, err)
 				}
-				article = rArticle.Entity()
 			case "article.html":
 				articleHTMLBytes = fileBytes
 			default:
@@ -202,14 +201,14 @@ func BuildIndexToLocal(
 		}
 		articleListItem := entity.NewArticleListItemFromArticle(article)
 		if articleHTMLBytes != nil {
-			children, err := entity.NewArticleListFromHTML(articleListItem.Path, bytes.NewReader(articleHTMLBytes))
+			children, err := entity.NewArticleListFromHTML(articleListItem.ArticleID, bytes.NewReader(articleHTMLBytes))
 			if err != nil {
 				return xerrors.Errorf("Cannot new article list from html : %w", err)
 			}
 			articleListItem.Children = children
 		}
 		for _, blockArticleHTMLBytes := range blockArticleHTMLBytesList {
-			children, err := entity.NewArticleListFromHTML(articleListItem.Path, bytes.NewReader(blockArticleHTMLBytes))
+			children, err := entity.NewArticleListFromHTML(articleListItem.ArticleID, bytes.NewReader(blockArticleHTMLBytes))
 			if err != nil {
 				return xerrors.Errorf("Cannot new article list from html : %w", err)
 			}
@@ -235,4 +234,73 @@ func readBlockArticleBytes(
 		return nil, xerrors.Errorf("Cannot open file '%s' : %w", filePathBlockArticle, err)
 	}
 	return bytesBlockArticle, nil
+}
+
+func newArticleFromFile(filePath string, article *entity.Article) error {
+	fileBytes, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return xerrors.Errorf("Cannot read file '%s' : %w", filePath, err)
+	}
+	rArticle := ResponseArticle{}
+	if err := json.Unmarshal(fileBytes, &rArticle); err != nil {
+		return xerrors.Errorf("Cannot unmarshal file '%s' : %w", filePath, err)
+	}
+	*article = *rArticle.Entity()
+	return nil
+}
+
+func UploadArticles(
+	ctx context.Context,
+	articleStore service.ArticleStore,
+	dirPath string,
+) error {
+	files, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		return xerrors.Errorf("Cannot open dir '%s' : %w", dirPath, err)
+	}
+	uploadedFiles := map[string]string{}
+	for _, file := range files {
+		if !file.IsDir() {
+			continue
+		}
+		dirPathArticle := filepath.Join(dirPath, file.Name())
+		if err := getUploadArticleFiles(dirPathArticle, &uploadedFiles); err != nil {
+			return xerrors.Errorf("Cannot getUploadArticleFiles : %w", err)
+		}
+	}
+	for filePathSrc, filePathDst := range uploadedFiles {
+		bytesSrc, err := ioutil.ReadFile(filePathSrc)
+		if err != nil {
+			return xerrors.Errorf("Cannot read file '%s' : %w", filePathSrc, err)
+		}
+		if err := articleStore.PutRawFile(ctx, bytesSrc, filePathDst); err != nil {
+			return xerrors.Errorf("Cannot put raw file %s => %s : %w", filePathSrc, filePathDst, err)
+		}
+		fmt.Printf("%s => %s\n", filePathSrc, filePathDst)
+	}
+	return nil
+}
+
+func getUploadArticleFiles(
+	dirPathArticle string,
+	r *map[string]string,
+) error {
+	filePathArticleJSON := filepath.Join(dirPathArticle, "article.json")
+	article := entity.Article{}
+	if err := newArticleFromFile(filePathArticleJSON, &article); err != nil {
+		return xerrors.Errorf("Cannot newArticleFromFile : %w", err)
+	}
+	fileInfos, err := ioutil.ReadDir(dirPathArticle)
+	if err != nil {
+		return xerrors.Errorf("Cannot ReadDir '%s' : %w", dirPathArticle, err)
+	}
+	for _, fileInfo := range fileInfos {
+		if fileInfo.IsDir() {
+			continue
+		}
+		filePathSrc := filepath.Join(dirPathArticle, fileInfo.Name())
+		filePathDst := filepath.Join(string(article.ID), fileInfo.Name())
+		(*r)[filePathSrc] = filePathDst
+	}
+	return nil
 }

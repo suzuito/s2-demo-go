@@ -1,74 +1,74 @@
 {
- "path": "",
+ "articleId": "",
  "anchor": "",
  "children": [
   {
-   "path": "summary",
+   "articleId": "summary",
    "anchor": "",
    "children": [
     {
-     "path": "summary",
+     "articleId": "summary",
      "anchor": "概要",
      "children": []
     },
     {
-     "path": "summary",
+     "articleId": "summary",
      "anchor": "s2とは何か？",
      "children": []
     },
     {
-     "path": "summary",
+     "articleId": "summary",
      "anchor": "s2はデータベースではない",
      "children": []
     },
     {
-     "path": "summary",
+     "articleId": "summary",
      "anchor": "Cellとは何か？",
      "children": []
     },
     {
-     "path": "summary",
+     "articleId": "summary",
      "anchor": "s2の利用実績",
      "children": []
     },
     {
-     "path": "summary",
+     "articleId": "summary",
      "anchor": "s2がサポートする言語",
      "children": []
     }
    ]
   },
   {
-   "path": "latlng",
+   "articleId": "latlng",
    "anchor": "",
    "children": [
     {
-     "path": "latlng",
+     "articleId": "latlng",
      "anchor": "概要",
      "children": []
     },
     {
-     "path": "latlng",
+     "articleId": "latlng",
      "anchor": "s2.LatLng",
      "children": []
     },
     {
-     "path": "latlng",
+     "articleId": "latlng",
      "anchor": "s2.LatLngFromDegrees",
      "children": []
     },
     {
-     "path": "latlng",
+     "articleId": "latlng",
      "anchor": "s2.LatLng.IsValid",
      "children": []
     },
     {
-     "path": "latlng",
+     "articleId": "latlng",
      "anchor": "s2.LatLng.String",
      "children": []
     },
     {
-     "path": "latlng",
+     "articleId": "latlng",
      "anchor": "s2.LatLng.ApproxEqual",
      "children": []
     }

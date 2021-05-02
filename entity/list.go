@@ -10,20 +10,20 @@ import (
 var TagNamesForAnchor = []string{"h1", "h2", "h3", "h4", "h5"}
 
 type ArticleListItem struct {
-	Path     string
-	Anchor   string
-	Children []ArticleListItem
+	ArticleID ArticleID
+	Anchor    string
+	Children  []ArticleListItem
 }
 
 func NewArticleListItemFromArticle(a *Article) *ArticleListItem {
 	return &ArticleListItem{
-		Path:     string(a.ID),
-		Anchor:   "",
-		Children: []ArticleListItem{},
+		ArticleID: a.ID,
+		Anchor:    "",
+		Children:  []ArticleListItem{},
 	}
 }
 
-func NewArticleListFromHTML(path string, in io.Reader) ([]ArticleListItem, error) {
+func NewArticleListFromHTML(articleID ArticleID, in io.Reader) ([]ArticleListItem, error) {
 	ret := []ArticleListItem{}
 	var d *goquery.Document
 	var err error
@@ -37,9 +37,9 @@ func NewArticleListFromHTML(path string, in io.Reader) ([]ArticleListItem, error
 			return
 		}
 		a := ArticleListItem{
-			Path:     path,
-			Anchor:   attrID,
-			Children: []ArticleListItem{},
+			ArticleID: articleID,
+			Anchor:    attrID,
+			Children:  []ArticleListItem{},
 		}
 		ret = append(ret, a)
 	})

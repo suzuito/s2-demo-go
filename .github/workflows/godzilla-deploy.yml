@@ -21,3 +21,4 @@ jobs:
       - run: envsubst '${GITHUB_SHA}' < main_api/service-godzilla.yml > k.yml
       - run: gcloud builds submit --tag gcr.io/${{env.GCP_PROJECT_ID}}/s2-demo-api
       - run: gcloud --quiet beta run services replace k.yml --platform managed --region asia-northeast1
+      - run: gsutil cors set gcs-cors-${{env.GCP_PROJECT_ID}}.json gs://${{env.GCP_PROJECT_ID}}-s2-demo-article

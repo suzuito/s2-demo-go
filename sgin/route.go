@@ -18,10 +18,4 @@ func NewRoute(r *gin.Engine, env *setting.Env, genGCPResource *cgcp.GCPContextRe
 	}))
 	r.Use(cgin.MiddlewareGCPResource(genGCPResource))
 	r.Use(middlewareResource(env))
-
-	{
-		articles := r.Group("articles")
-		articles.GET("", handlerArticles())
-		articles.GET(":articleID", handlerArticle())
-	}
 }
