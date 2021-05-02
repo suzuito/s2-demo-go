@@ -3,6 +3,42 @@
  "anchor": "",
  "children": [
   {
+   "path": "summary",
+   "anchor": "",
+   "children": [
+    {
+     "path": "summary",
+     "anchor": "概要",
+     "children": []
+    },
+    {
+     "path": "summary",
+     "anchor": "s2とは何か？",
+     "children": []
+    },
+    {
+     "path": "summary",
+     "anchor": "s2はデータベースではない",
+     "children": []
+    },
+    {
+     "path": "summary",
+     "anchor": "Cellとは何か？",
+     "children": []
+    },
+    {
+     "path": "summary",
+     "anchor": "s2の利用実績",
+     "children": []
+    },
+    {
+     "path": "summary",
+     "anchor": "s2がサポートする言語",
+     "children": []
+    }
+   ]
+  },
+  {
    "path": "latlng",
    "anchor": "",
    "children": [
@@ -34,17 +70,6 @@
     {
      "path": "latlng",
      "anchor": "s2.LatLng.ApproxEqual",
-     "children": []
-    }
-   ]
-  },
-  {
-   "path": "summary",
-   "anchor": "",
-   "children": [
-    {
-     "path": "summary",
-     "anchor": "概要",
      "children": []
     }
    ]
