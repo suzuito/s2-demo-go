@@ -6,7 +6,6 @@ require (
 	cloud.google.com/go/storage v1.10.0
 	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/cosmtrek/air v1.27.3 // indirect
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.3.0 // indirect
