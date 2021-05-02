@@ -1,5 +1,6 @@
 ---
 id: 01
+type: source_and_text
 ---
 
 ## s2.LatLng

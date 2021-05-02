@@ -9,6 +9,7 @@ data.exe: ${GO_SOURCES}
 data-build:
 	docker-compose exec -T env bash -c "make clean && make data.exe && ./data.exe build -input-article-dir ${DIR}"
 	./execute-sample-codes.sh ${DIR}
+	docker-compose exec -T env bash -c "./data.exe build-index -input-dir $(dir ${DIR})"
 
 */*/*/*/result.txt: ${GO_SOURCES}
 	docker-compose exec -T env bash -c "FILE_PATH_GEOJSON=$(dir $@)/result.geojson go run $(dir $@)/main.go | tee $@"

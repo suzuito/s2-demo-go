@@ -42,7 +42,6 @@ type ArticleBlockType string
 
 const (
 	ArticleBlockTypeText          ArticleBlockType = "text"
-	ArticleBlockTypeSource        ArticleBlockType = "source"
 	ArticleBlockTypeSourceAndText ArticleBlockType = "source_and_text"
 )
 
@@ -139,13 +138,15 @@ func NewArticleBlockFromRawContent(r io.Reader) (*ArticleBlock, []byte, error) {
 		return nil, nil, xerrors.Errorf("Meta data is not found : %w", ErrMetaBlockNotFound)
 	}
 	embedMeta := struct {
-		ID string `yaml:"id"`
+		ID   string `yaml:"id"`
+		Type string `yaml:"type"`
 	}{}
 	if err := yaml.Unmarshal([]byte(metaBlock), &embedMeta); err != nil {
 		return nil, nil, xerrors.Errorf("Cannot parse yaml block '%s' : %w", metaBlock, err)
 	}
 	article := ArticleBlock{
-		ID: ArticleBlockID(embedMeta.ID),
+		ID:   ArticleBlockID(embedMeta.ID),
+		Type: ArticleBlockType(embedMeta.Type),
 	}
 	return &article, []byte(notMetaBlock), nil
 }

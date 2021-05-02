@@ -26,7 +26,6 @@ func NewResponseArticle(a *entity.Article) *ResponseArticle {
 
 type ResponseArticleBlock struct {
 	ID                  entity.ArticleBlockID   `json:"id"`
-	Title               string                  `json:"title"`
 	Type                entity.ArticleBlockType `json:"type"`
 	Text                string                  `json:"text"`
 	Source              string                  `json:"source"`

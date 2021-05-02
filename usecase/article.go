@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -38,7 +39,6 @@ func GetArticleList(
 
 func BuildArticleBlock(
 	bodyMarkdown []byte,
-	items *[]entity.ArticleListItem,
 	bodyHTML *[]byte,
 	block *entity.ArticleBlock,
 ) error {
@@ -49,11 +49,6 @@ func BuildArticleBlock(
 	if err := ConvertMarkdownToHTML(convertedMarkdown, bodyHTML); err != nil {
 		return xerrors.Errorf("Cannot convert : %w", err)
 	}
-	newed, err := entity.NewArticleListItemFromHTML(bytes.NewReader(*bodyHTML))
-	if err != nil {
-		return xerrors.Errorf("Cannot new article list : %w", err)
-	}
-	*items = newed
 	*block = *tmp
 	return nil
 }
@@ -110,8 +105,7 @@ func BuildArticleToLocal(
 			return xerrors.Errorf("Cannot ReadFile : %w", err)
 		}
 		blockHTMLBytes := []byte{}
-		itemsPart := []entity.ArticleListItem{}
-		if err := BuildArticleBlock(blockMarkdownBytes, &itemsPart, &blockHTMLBytes, &block); err != nil {
+		if err := BuildArticleBlock(blockMarkdownBytes, &blockHTMLBytes, &block); err != nil {
 			return xerrors.Errorf("Cannot build article block : %w", err)
 		}
 		outputBytes[filepath.Join(dirPathArticleBlock, "article.html")] = blockHTMLBytes
@@ -148,6 +142,18 @@ func writeFileObjects(files map[string]interface{}) error {
 		if err := ioutil.WriteFile(name, b, 0644); err != nil {
 			return xerrors.Errorf("Cannot WriteFile : %w", err)
 		}
+	}
+	return nil
+}
+
+func BuildIndexToLocal(
+	dirPath string,
+) error {
+	if err := filepath.Walk(dirPath, func(dirPathArticleBlock string, info1 os.FileInfo, _ error) error {
+		fmt.Println(dirPath)
+		return nil
+	}); err != nil {
+		return xerrors.Errorf("Cannot walk : %w", err)
 	}
 	return nil
 }
