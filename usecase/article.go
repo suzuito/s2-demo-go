@@ -3,15 +3,11 @@ package usecase
 import (
 	"bytes"
 	"context"
-	"fmt"
-	"io"
+	"encoding/json"
 	"io/ioutil"
 	"os"
-	"regexp"
-	"strings"
+	"path/filepath"
 
-	"github.com/PuerkitoBio/goquery"
-	"github.com/russross/blackfriday/v2"
 	"github.com/suzuito/s2-demo-go/entity"
 	"github.com/suzuito/s2-demo-go/service"
 	"golang.org/x/xerrors"
@@ -40,65 +36,119 @@ func GetArticleList(
 	return nil
 }
 
-var regexpFileExtReplacerMarkdown = regexp.MustCompile(".md$")
-
-func ConvertFileMarkdownToHTML(
-	srcFilePath string,
+func BuildArticleBlock(
+	bodyMarkdown []byte,
+	items *[]entity.ArticleListItem,
+	bodyHTML *[]byte,
+	block *entity.ArticleBlock,
 ) error {
-	src, err := os.Open(srcFilePath)
+	tmp, convertedMarkdown, err := entity.NewArticleBlockFromRawContent(bytes.NewReader(bodyMarkdown))
 	if err != nil {
-		return xerrors.Errorf("Cannot open src '%s' : %w", srcFilePath, err)
+		return xerrors.Errorf("Cannot NewArticleBlockFromRawContent : %w", err)
 	}
-	defer src.Close()
-	dstFilePath := regexpFileExtReplacerMarkdown.ReplaceAllString(srcFilePath, ".html")
-	dst, err := os.Open(dstFilePath)
+	if err := ConvertMarkdownToHTML(convertedMarkdown, bodyHTML); err != nil {
+		return xerrors.Errorf("Cannot convert : %w", err)
+	}
+	newed, err := entity.NewArticleListItemFromHTML(bytes.NewReader(*bodyHTML))
 	if err != nil {
-		return xerrors.Errorf("Cannot open src '%s' : %w", dstFilePath, err)
+		return xerrors.Errorf("Cannot new article list : %w", err)
 	}
-	defer dst.Close()
-	return ConvertMarkdownToHTML(src, dst)
-}
-
-func ConvertMarkdownToHTML(
-	srcMarkdown io.Reader,
-	dstHTML io.Writer,
-) error {
-	bytesMarkdown, err := ioutil.ReadAll(srcMarkdown)
-	if err != nil {
-		return xerrors.Errorf("Cannot read src markdown : %w", err)
-	}
-	bytesHTML1 := blackfriday.Run(
-		bytesMarkdown,
-		blackfriday.WithRenderer(
-			blackfriday.NewHTMLRenderer(
-				blackfriday.HTMLRendererParameters{
-					Flags: blackfriday.TOC | blackfriday.HrefTargetBlank,
-				},
-			),
-		),
-	)
-	bytesHTML2, err := convertAfterConvert(bytesHTML1)
-	if err != nil {
-		return xerrors.Errorf("Cannot convertAfterConvert : %w", err)
-	}
-	fmt.Fprintf(dstHTML, bytesHTML2)
+	*items = newed
+	*block = *tmp
 	return nil
 }
 
-func convertAfterConvert(body []byte) (string, error) {
-	d, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
+func BuildArticle(
+	bodyMarkdown []byte,
+	article *entity.Article,
+	bodyHTML *[]byte,
+) error {
+	tmp, convertedMarkdown, err := entity.NewArticleFromRawContent(bytes.NewReader(bodyMarkdown))
 	if err != nil {
-		return "", xerrors.Errorf("Cannot new goquery : %w", err)
+		return xerrors.Errorf("Cannot new article : %w", err)
 	}
-	d.Find("pre").Each(func(i int, s *goquery.Selection) {
-		s.SetAttr("class", "code-block")
-		s.SetAttr("style", "width: 100%; overflow: scroll;")
-	})
-	returned, err := d.Html()
+	if err = ConvertMarkdownToHTML(convertedMarkdown, bodyHTML); err != nil {
+		return xerrors.Errorf("Cannot build md to html : %w", err)
+	}
+	*article = *tmp
+	*bodyHTML = convertedMarkdown
+	return nil
+}
+
+func BuildArticleToLocal(
+	dirPath string,
+) error {
+	var err error
+	outputBytes := map[string][]byte{}
+	outputObjects := map[string]interface{}{}
+	articleMarkdownBytes := []byte{}
+	articleMarkdownBytes, err = ioutil.ReadFile(filepath.Join(dirPath, "article.md"))
 	if err != nil {
-		return "", xerrors.Errorf("Cannot create goquery html : %w", err)
+		return xerrors.Errorf("Cannot ReadFile : %w", err)
 	}
-	returned = strings.Replace(returned, "<html><head></head><body>", "", 1)
-	returned = strings.Replace(returned, "</body></html>", "", 1)
-	return returned, nil
+	articleHTMLBytes := []byte{}
+	article := entity.Article{}
+	if err := BuildArticle(articleMarkdownBytes, &article, &articleHTMLBytes); err != nil {
+		return xerrors.Errorf("Cannot build article : %w", err)
+	}
+	outputBytes[filepath.Join(dirPath, "article.html")] = articleHTMLBytes
+	if err != nil {
+		return xerrors.Errorf("Cannot new article list item : %w", err)
+	}
+	if err := filepath.Walk(dirPath, func(dirPathArticleBlock string, info1 os.FileInfo, _ error) error {
+		if !info1.IsDir() {
+			return nil
+		}
+		left, _ := filepath.Abs(dirPathArticleBlock)
+		right, _ := filepath.Abs(dirPath)
+		if left == right {
+			return nil
+		}
+		block := entity.ArticleBlock{}
+		blockMarkdownBytes := []byte{}
+		blockMarkdownBytes, err = ioutil.ReadFile(filepath.Join(dirPathArticleBlock, "article.md"))
+		if err != nil {
+			return xerrors.Errorf("Cannot ReadFile : %w", err)
+		}
+		blockHTMLBytes := []byte{}
+		itemsPart := []entity.ArticleListItem{}
+		if err := BuildArticleBlock(blockMarkdownBytes, &itemsPart, &blockHTMLBytes, &block); err != nil {
+			return xerrors.Errorf("Cannot build article block : %w", err)
+		}
+		outputBytes[filepath.Join(dirPathArticleBlock, "article.html")] = blockHTMLBytes
+		article.Blocks = append(article.Blocks, block)
+		return nil
+	}); err != nil {
+		return xerrors.Errorf("Cannot walk : %w", err)
+	}
+	outputObjects[filepath.Join(dirPath, "article.json")] = NewResponseArticle(&article)
+	if err := writeFileBytes(outputBytes); err != nil {
+		return xerrors.Errorf("Cannot writeFileBytes : %w", err)
+	}
+	if err := writeFileObjects(outputObjects); err != nil {
+		return xerrors.Errorf("Cannot writeFileObjects : %w", err)
+	}
+	return nil
+}
+
+func writeFileBytes(files map[string][]byte) error {
+	for name, f := range files {
+		if err := ioutil.WriteFile(name, f, 0644); err != nil {
+			return xerrors.Errorf("Cannot WriteFile : %w", err)
+		}
+	}
+	return nil
+}
+
+func writeFileObjects(files map[string]interface{}) error {
+	for name, f := range files {
+		b, err := json.Marshal(f)
+		if err != nil {
+			return xerrors.Errorf("Cannot marshal : %w", err)
+		}
+		if err := ioutil.WriteFile(name, b, 0644); err != nil {
+			return xerrors.Errorf("Cannot WriteFile : %w", err)
+		}
+	}
+	return nil
 }

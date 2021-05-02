@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"github.com/paulmach/orb/geojson"
 	"github.com/suzuito/s2-demo-go/entity"
 )
 
@@ -26,20 +25,23 @@ func NewResponseArticle(a *entity.Article) *ResponseArticle {
 }
 
 type ResponseArticleBlock struct {
-	Type                entity.ArticleBlockType    `json:"type"`
-	Text                string                     `json:"text"`
-	Source              string                     `json:"source"`
-	SourceResult        string                     `json:"sourceResult"`
-	SourceResultGeoJSON *geojson.FeatureCollection `json:"sourceResultGeoJSON"`
+	ID                  entity.ArticleBlockID   `json:"id"`
+	Title               string                  `json:"title"`
+	Type                entity.ArticleBlockType `json:"type"`
+	Text                string                  `json:"text"`
+	Source              string                  `json:"source"`
+	SourceResult        string                  `json:"sourceResult"`
+	SourceResultGeoJSON string                  `json:"sourceResultGeoJSON"`
 }
 
 func NewResponseArticleBlock(ab *entity.ArticleBlock) *ResponseArticleBlock {
 	return &ResponseArticleBlock{
+		ID:                  ab.ID,
 		Type:                ab.Type,
-		Text:                ab.Text,
-		Source:              ab.Source,
-		SourceResult:        ab.SourceResult,
-		SourceResultGeoJSON: ab.SourceResultGeoJSON,
+		Text:                ab.PathText,
+		Source:              ab.PathSource,
+		SourceResult:        ab.PathSourceResult,
+		SourceResultGeoJSON: ab.PathSourceResultGeoJSON,
 	}
 }
 

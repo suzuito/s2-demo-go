@@ -90,3 +90,42 @@ func (s *ArticleStore) GetArticleList(
 ) error {
 	return xerrors.Errorf("Not impl")
 }
+
+func (s *ArticleStore) PutArticle(
+	ctx context.Context,
+	article *entity.Article,
+) error {
+	bh := s.cli.Bucket(s.bucket)
+	keyArticleDir := filepath.Join(string(article.ID))
+	for _, block := range article.Blocks {
+		if err := putArticleBlock(ctx, bh, keyArticleDir, &block); err != nil {
+			return xerrors.Errorf("Cannot put article block : %w", err)
+		}
+	}
+	return nil
+}
+
+func putArticleBlock(
+	ctx context.Context,
+	bh *storage.BucketHandle,
+	keyArticleDir string,
+	block *entity.ArticleBlock,
+) error {
+	if block.Text != "" {
+		k := filepath.Join(keyArticleDir, "article.html")
+		w := bh.Object(k).NewWriter(ctx)
+		defer w.Close()
+		if _, err := fmt.Fprintf(w, block.Text); err != nil {
+			return xerrors.Errorf("Cannot write '%s' : %w", k, err)
+		}
+	}
+	if block.Source != "" {
+		k := filepath.Join(keyArticleDir, "main.go")
+		w := bh.Object(k).NewWriter(ctx)
+		defer w.Close()
+		if _, err := fmt.Fprintf(w, block.Source); err != nil {
+			return xerrors.Errorf("Cannot write '%s' : %w", k, err)
+		}
+	}
+	return nil
+}
