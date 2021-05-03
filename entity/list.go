@@ -12,6 +12,7 @@ var TagNamesForAnchor = []string{"h1", "h2", "h3", "h4", "h5"}
 type ArticleListItem struct {
 	ArticleID ArticleID
 	Anchor    string
+	Name      string
 	Children  []ArticleListItem
 }
 
@@ -20,6 +21,7 @@ func NewArticleListItemFromArticle(a *Article) *ArticleListItem {
 		ArticleID: a.ID,
 		Anchor:    "",
 		Children:  []ArticleListItem{},
+		Name:      a.Title,
 	}
 }
 
@@ -40,6 +42,7 @@ func NewArticleListFromHTML(articleID ArticleID, in io.Reader) ([]ArticleListIte
 			ArticleID: articleID,
 			Anchor:    attrID,
 			Children:  []ArticleListItem{},
+			Name:      attrID,
 		}
 		ret = append(ret, a)
 	})

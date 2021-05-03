@@ -71,6 +71,7 @@ func (r *ResponseArticleBlock) Entity() *entity.ArticleBlock {
 type ResponseArticleListItem struct {
 	ArticleID entity.ArticleID          `json:"articleId"`
 	Anchor    string                    `json:"anchor"`
+	Name      string                    `json:"name"`
 	Children  []ResponseArticleListItem `json:"children"`
 }
 
@@ -82,6 +83,7 @@ func NewResponseArticleListItem(a *entity.ArticleListItem) *ResponseArticleListI
 	return &ResponseArticleListItem{
 		ArticleID: a.ArticleID,
 		Anchor:    a.Anchor,
+		Name:      a.Name,
 		Children:  children,
 	}
 }
