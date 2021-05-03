@@ -24,5 +24,12 @@ func main() {
 		"ウラジオストク->札幌->福岡 は、東京から見たとき、反時計回りですか？ %v\n",
 		s2.OrderedCCW(o, a, c, b))
 
-	s2geojson.Print(&[]s2.Point{b, c, a, o})
+	s2geojson.Print(&[]s2.Point{b, c, a, o}, &s2geojson.PrintGeoJSONOption{
+		StyleHeight: "500px",
+		Zoom:        5,
+		Center: s2geojson.PrintGeoJSONOptionLatLng{
+			Lat: 40.2048,
+			Lng: 138.2529,
+		},
+	})
 }

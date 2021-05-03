@@ -17,7 +17,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/suzuito/common-go v0.10.1-0.20210501121819-d1b08a66a402
 	golang.org/x/net v0.0.0-20210501222612-f8dd838d8c7d // indirect
-	golang.org/x/sys v0.0.0-20210502180810-71e4cd670f79 // indirect
+	golang.org/x/sys v0.0.0-20210503080704-8803ae5d1324 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 	google.golang.org/api v0.43.0
 	gopkg.in/yaml.v2 v2.3.0

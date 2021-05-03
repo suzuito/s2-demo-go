@@ -15,7 +15,7 @@ data-build: build-cmd-article
 	docker-compose exec -T env bash -c "./data.exe build-index -input-dir $(dir ${DIR})"
 
 */*/*/*/result.txt: ${GO_SOURCES}
-	docker-compose exec -T env bash -c "FILE_PATH_GEOJSON=$(dir $@)result.geojson go run $(dir $@)main.go | tee $@"
+	docker-compose exec -T env bash -c "DIR_PATH_RESULT=$(dir $@) go run $(dir $@)main.go | tee $@"
 
 rsync-godzilla: build-cmd-article
 	docker-compose exec -T env bash -c "./data.exe upload -input-dir ${DIR}"

@@ -10,7 +10,7 @@ date: 2021-05-03
 
 下の図中の点列「緑→赤→青」は左回り、反時計回り、Counter clockwise、ccw。 点列「青→赤→緑」は右回り、時計回り、Clockwise。
 
-![](./ccw.png)
+![](https://storage.googleapis.com/suzuito-godzilla-s2-demo-article/ccw01/ccw.png)
 
 ところで、なぜ点列の回転方向が幾何学計算上では重要なのでしょうか？
 
