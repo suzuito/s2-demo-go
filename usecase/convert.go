@@ -26,6 +26,9 @@ func convertAfterConvert(body []byte) (string, error) {
 		s.SetAttr("class", "code-block")
 		s.SetAttr("style", "width: 100%; overflow: scroll;")
 	})
+	d.Find("a").Each(func(i int, s *goquery.Selection) {
+		s.SetAttr("class", "article-link")
+	})
 	for _, tagName := range entity.TagNamesForAnchor {
 		d.Find(tagName).Each(func(i int, s *goquery.Selection) {
 			s.SetAttr("id", s.Text())

@@ -187,6 +187,7 @@ func BuildIndexToLocal(
 			}
 			switch file2.Name() {
 			case "article.json":
+				article = &entity.Article{}
 				if err := newArticleFromFile(filePath, article); err != nil {
 					return xerrors.Errorf("Cannot newArticleFrom file '%s' : %w", filePath, err)
 				}
@@ -258,7 +259,7 @@ func UploadArticles(
 	if err != nil {
 		return xerrors.Errorf("Cannot open dir '%s' : %w", dirPath, err)
 	}
-	uploadedFiles := map[string]string{}
+	uploadedFiles := []uploadedFileOnUploadArticles{}
 	for _, file := range files {
 		if !file.IsDir() {
 			continue
@@ -268,13 +269,18 @@ func UploadArticles(
 			return xerrors.Errorf("Cannot getUploadArticleFiles : %w", err)
 		}
 	}
-	uploadedFiles[fmt.Sprintf("%s/index.json", dirPath)] = "index.json"
-	for filePathSrc, filePathDst := range uploadedFiles {
+	uploadedFiles = append(uploadedFiles, *newUploadedFileOnUploadArticles(
+		fmt.Sprintf("%s/index.json", dirPath),
+		"index.json",
+	))
+	for _, v := range uploadedFiles {
+		filePathSrc := v.SrcFilePath
+		filePathDst := v.DstFilePath
 		bytesSrc, err := ioutil.ReadFile(filePathSrc)
 		if err != nil {
 			return xerrors.Errorf("Cannot read file '%s' : %w", filePathSrc, err)
 		}
-		if err := articleStore.PutRawFile(ctx, bytesSrc, filePathDst); err != nil {
+		if err := articleStore.PutRawFile(ctx, bytesSrc, v.DstContentType, filePathDst); err != nil {
 			return xerrors.Errorf("Cannot put raw file %s => %s : %w", filePathSrc, filePathDst, err)
 		}
 		fmt.Printf("%s => %s\n", filePathSrc, filePathDst)
@@ -282,9 +288,31 @@ func UploadArticles(
 	return nil
 }
 
+type uploadedFileOnUploadArticles struct {
+	SrcFilePath    string
+	DstFilePath    string
+	DstContentType string
+}
+
+func newUploadedFileOnUploadArticles(srcFilePath string, dstFilePath string) *uploadedFileOnUploadArticles {
+	r := uploadedFileOnUploadArticles{
+		SrcFilePath: srcFilePath,
+		DstFilePath: dstFilePath,
+	}
+	switch filepath.Ext(srcFilePath) {
+	case ".html":
+		r.DstContentType = "text/html; charset=utf-8"
+	case ".json":
+		r.DstContentType = "application/json; charset=utf-8"
+	default:
+		r.DstContentType = "text/plain; charset=utf-8"
+	}
+	return &r
+}
+
 func getUploadArticleFiles(
 	dirPathArticle string,
-	r *map[string]string,
+	r *[]uploadedFileOnUploadArticles,
 ) error {
 	filePathArticleJSON := filepath.Join(dirPathArticle, "article.json")
 	article := entity.Article{}
@@ -301,7 +329,7 @@ func getUploadArticleFiles(
 		}
 		filePathSrc := filepath.Join(dirPathArticle, fileInfo.Name())
 		filePathDst := filepath.Join(string(article.ID), fileInfo.Name())
-		(*r)[filePathSrc] = filePathDst
+		*r = append(*r, *newUploadedFileOnUploadArticles(filePathSrc, filePathDst))
 	}
 	for _, block := range article.Blocks {
 		dirPathArticleBlock := filepath.Join(dirPathArticle, string(block.ID))
@@ -316,7 +344,7 @@ func getUploadArticleBlockFiles(
 	dirPathArticleBlock string,
 	articleID entity.ArticleID,
 	articleBlockID entity.ArticleBlockID,
-	r *map[string]string,
+	r *[]uploadedFileOnUploadArticles,
 ) error {
 	fileInfos, err := ioutil.ReadDir(dirPathArticleBlock)
 	if err != nil {
@@ -328,7 +356,7 @@ func getUploadArticleBlockFiles(
 		}
 		filePathSrc := filepath.Join(dirPathArticleBlock, fileInfo.Name())
 		filePathDst := filepath.Join(string(articleID), string(articleBlockID), fileInfo.Name())
-		(*r)[filePathSrc] = filePathDst
+		*r = append(*r, *newUploadedFileOnUploadArticles(filePathSrc, filePathDst))
 	}
 	return nil
 }

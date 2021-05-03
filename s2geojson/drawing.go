@@ -26,11 +26,17 @@ func Print(
 	points *[]s2.Point,
 ) error {
 	filePath := os.Getenv("FILE_PATH_GEOJSON")
-	f, err := os.Open(filePath)
+	os.Remove(filePath)
+	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		return xerrors.Errorf("Cannot open file : %w", err)
 	}
-	return Fprint(f, points)
+	defer f.Close()
+	err = Fprint(f, points)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
+	}
+	return err
 }
 
 func Fprint(
@@ -42,6 +48,6 @@ func Fprint(
 	if err != nil {
 		return xerrors.Errorf("Cannot marshal geo json : %w", err)
 	}
-	fmt.Fprint(out, string(body))
-	return nil
+	_, err = fmt.Fprint(out, string(body))
+	return err
 }

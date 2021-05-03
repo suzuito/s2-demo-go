@@ -20,6 +20,7 @@ type ArticleStore interface {
 	PutRawFile(
 		ctx context.Context,
 		bytesSrc []byte,
+		contentTypeSrc string,
 		pathDst string,
 	) error
 }
