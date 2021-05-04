@@ -68,5 +68,6 @@ func (c *sitemapCmd) Execute(ctx context.Context, f *flag.FlagSet, _ ...interfac
 		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		return subcommands.ExitFailure
 	}
+	fmt.Printf("sitemap.xml => %s/sitemap.xml\n", env.GCPBucketServer)
 	return subcommands.ExitSuccess
 }
