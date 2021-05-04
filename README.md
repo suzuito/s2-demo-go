@@ -2,6 +2,18 @@
 
 ## Developments
 
+```bash
+docker-compose up
 ```
-make start-api
+
+## Build
+
+```bash
+DIR=./data/article/summary make data-build
+```
+
+## Upload
+
+```bash
+DIR=./data/article make rsync-godzilla
 ```

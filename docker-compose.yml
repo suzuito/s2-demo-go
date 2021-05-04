@@ -1,0 +1,28 @@
+version: '3'
+services:
+  env:
+    image: "golang:1.16"
+    environment:
+      - ENV=dev
+      - ALLOWED_ORIGINS=http://localhost:4200
+      - ALLOWED_METHODS=GET,POST
+      - ALLOWED_HEADERS=Content-type
+      - GCP_BUCKET_ARTICLE=suzuito-godzilla-s2-demo-article
+      - GOOGLE_APPLICATION_CREDENTIALS=./suzuito-godzilla-64ff80a28487.json
+    working_dir: /opt/app
+    volumes:
+      - .:/opt/app
+    links:
+      - gcp:gcp
+    depends_on:
+      - gcp
+    command: /bin/sh -c 'rm -f api.exe && make api.exe && go get -u github.com/cosmtrek/air && air -c .air-api.toml'
+    ports:
+      - 8080:8080
+  gcp:
+    image: google/cloud-sdk:emulators
+    command: gcloud beta emulators pubsub start --project=fastalert-dummy
+    ports:
+      - 8085:8085 # pubsub
+volumes:
+  postgres:

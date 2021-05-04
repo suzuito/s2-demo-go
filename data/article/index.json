@@ -1,0 +1,143 @@
+{
+ "articleId": "",
+ "anchor": "",
+ "name": "",
+ "children": [
+  {
+   "articleId": "summary",
+   "anchor": "",
+   "name": "概要",
+   "children": [
+    {
+     "articleId": "summary",
+     "anchor": "概要",
+     "name": "概要",
+     "children": []
+    },
+    {
+     "articleId": "summary",
+     "anchor": "s2とは何か？",
+     "name": "s2とは何か？",
+     "children": []
+    },
+    {
+     "articleId": "summary",
+     "anchor": "s2はデータベースではない",
+     "name": "s2はデータベースではない",
+     "children": []
+    },
+    {
+     "articleId": "summary",
+     "anchor": "Cellとは何か？",
+     "name": "Cellとは何か？",
+     "children": []
+    },
+    {
+     "articleId": "summary",
+     "anchor": "s2の利用実績",
+     "name": "s2の利用実績",
+     "children": []
+    },
+    {
+     "articleId": "summary",
+     "anchor": "s2がサポートする言語",
+     "name": "s2がサポートする言語",
+     "children": []
+    }
+   ]
+  },
+  {
+   "articleId": "latlng",
+   "anchor": "",
+   "name": "緯度経度",
+   "children": [
+    {
+     "articleId": "latlng",
+     "anchor": "概要",
+     "name": "概要",
+     "children": []
+    },
+    {
+     "articleId": "latlng",
+     "anchor": "s2.LatLng",
+     "name": "s2.LatLng",
+     "children": []
+    },
+    {
+     "articleId": "latlng",
+     "anchor": "s2.LatLngFromDegrees",
+     "name": "s2.LatLngFromDegrees",
+     "children": []
+    },
+    {
+     "articleId": "latlng",
+     "anchor": "s2.LatLng.IsValid",
+     "name": "s2.LatLng.IsValid",
+     "children": []
+    },
+    {
+     "articleId": "latlng",
+     "anchor": "s2.LatLng.String",
+     "name": "s2.LatLng.String",
+     "children": []
+    },
+    {
+     "articleId": "latlng",
+     "anchor": "s2.LatLng.ApproxEqual",
+     "name": "s2.LatLng.ApproxEqual",
+     "children": []
+    }
+   ]
+  },
+  {
+   "articleId": "geometry",
+   "anchor": "",
+   "name": "幾何学計算",
+   "children": []
+  },
+  {
+   "articleId": "point",
+   "anchor": "",
+   "name": "点",
+   "children": [
+    {
+     "articleId": "point",
+     "anchor": "s2.Point構造体",
+     "name": "s2.Point構造体",
+     "children": []
+    },
+    {
+     "articleId": "point",
+     "anchor": "s2.PointFromLatLng",
+     "name": "s2.PointFromLatLng",
+     "children": []
+    },
+    {
+     "articleId": "point",
+     "anchor": "s2.PointFromCoord",
+     "name": "s2.PointFromCoord",
+     "children": []
+    }
+   ]
+  },
+  {
+   "articleId": "ccw01",
+   "anchor": "",
+   "name": "点列の回転方向（時計回り 反時計回り）",
+   "children": [
+    {
+     "articleId": "ccw01",
+     "anchor": "s2.RobustSign",
+     "name": "s2.RobustSign",
+     "children": []
+    },
+    {
+     "articleId": "ccw01",
+     "anchor": "s2.OrderedCCW",
+     "name": "s2.OrderedCCW",
+     "children": []
+    }
+   ]
+  }
+ ]
+}
