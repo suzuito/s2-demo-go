@@ -8,6 +8,8 @@ services:
       - ALLOWED_METHODS=GET,POST
       - ALLOWED_HEADERS=Content-type
       - GCP_BUCKET_ARTICLE=suzuito-godzilla-s2-demo-article
+      - GCP_BUCKET_SERVER=suzuito-godzilla-s2-demo-server
+      - ORIGIN_SERVER=https://s2-sandbox.tach.dev
       - GOOGLE_APPLICATION_CREDENTIALS=./suzuito-godzilla-64ff80a28487.json
     working_dir: /opt/app
     volumes:

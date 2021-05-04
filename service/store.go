@@ -24,3 +24,11 @@ type ArticleStore interface {
 		pathDst string,
 	) error
 }
+
+type ServerStore interface {
+	PutSitemap(
+		ctx context.Context,
+		origin string,
+		x *entity.XMLURLSet,
+	) error
+}

@@ -6,10 +6,10 @@ api.exe: ${GO_SOURCES}
 data.exe: ${GO_SOURCES}
 	go build -o data.exe cmd/data/*.go
 
-build-cmd-article:
+build-cmd-data:
 	docker-compose exec -T env bash -c "make clean && make data.exe"
 
-data-build: build-cmd-article
+data-build: build-cmd-data
 	docker-compose exec -T env bash -c "./data.exe build -input-article-dir ${DIR}"
 	./execute-sample-codes.sh ${DIR}
 	docker-compose exec -T env bash -c "./data.exe build-index -input-dir $(dir ${DIR})"
@@ -17,8 +17,9 @@ data-build: build-cmd-article
 */*/*/*/result.txt: ${GO_SOURCES}
 	docker-compose exec -T env bash -c "DIR_PATH_RESULT=$(dir $@) go run $(dir $@)main.go | tee $@"
 
-rsync-godzilla: build-cmd-article
+rsync-godzilla: build-cmd-data
 	docker-compose exec -T env bash -c "./data.exe upload -input-dir ${DIR}"
+	docker-compose exec -T env bash -c "./data.exe sitemap -input-dir ${DIR}"
 
 clean:
 	rm *.exe

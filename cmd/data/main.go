@@ -17,6 +17,7 @@ func main() {
 	subcommands.Register(newBuildCmd(), "")
 	subcommands.Register(newBuildIndexCmd(), "")
 	subcommands.Register(newUploadCmd(), "")
+	subcommands.Register(newSitemapCmd(), "")
 	flag.Parse()
 
 	os.Exit(int(subcommands.Execute(ctx)))
