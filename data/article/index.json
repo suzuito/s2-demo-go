@@ -138,6 +138,74 @@
      "children": []
     }
    ]
+  },
+  {
+   "articleId": "angle01",
+   "anchor": "",
+   "name": "角度",
+   "children": [
+    {
+     "articleId": "angle01",
+     "anchor": "s1.Angle 構造体",
+     "name": "s1.Angle 構造体",
+     "children": []
+    },
+    {
+     "articleId": "angle01",
+     "anchor": "s1.Angle.Degree 関数",
+     "name": "s1.Angle.Degree 関数",
+     "children": []
+    },
+    {
+     "articleId": "angle01",
+     "anchor": "s2.Angle 関数",
+     "name": "s2.Angle 関数",
+     "children": []
+    }
+   ]
+  },
+  {
+   "articleId": "distance01",
+   "anchor": "",
+   "name": "距離",
+   "children": [
+    {
+     "articleId": "distance01",
+     "anchor": "距離",
+     "name": "距離",
+     "children": []
+    },
+    {
+     "articleId": "distance01",
+     "anchor": "概要",
+     "name": "概要",
+     "children": []
+    },
+    {
+     "articleId": "distance01",
+     "anchor": "2 つの s2.LatLng 構造体の間の距離",
+     "name": "2 つの s2.LatLng 構造体の間の距離",
+     "children": []
+    },
+    {
+     "articleId": "distance01",
+     "anchor": "2 つの s2.Point 構造体の間の距離",
+     "name": "2 つの s2.Point 構造体の間の距離",
+     "children": []
+    },
+    {
+     "articleId": "distance01",
+     "anchor": "角度（ラジアン）からメートルへの変換",
+     "name": "角度（ラジアン）からメートルへの変換",
+     "children": []
+    },
+    {
+     "articleId": "distance01",
+     "anchor": "誤差について",
+     "name": "誤差について",
+     "children": []
+    }
+   ]
   }
  ]
 }

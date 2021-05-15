@@ -3,34 +3,28 @@ package main
 import (
 	"fmt"
 
+	"github.com/golang/geo/r3"
 	"github.com/golang/geo/s2"
 )
 
 func main() {
-	var l s2.LatLng
+	// Point 構造体の生成
+	// (10, 0, 0) のベクトルは長さが 1 ではない。
+	// PointFromCoords ファクトリメソッドは、長さが 1 ではない
+	// ベクトルが入力として与えられた場合、長さが 1 のベクトルに
+	// 自動的に変換し、Point 構造体を生成する。
+	p1 := s2.PointFromCoords(10, 0, 0)
+	fmt.Printf("p1 (%f %f %f) 長さが 1 ですか？ %v\n", p1.X, p1.Y, p1.Z, p1.IsUnit())
+	p2 := s2.PointFromCoords(10, 10, 10)
+	fmt.Printf("p2 (%f %f %f) 長さが 1 ですか？ %v\n", p2.X, p2.Y, p2.Z, p2.IsUnit())
 
-	// 良い例
-	l = s2.LatLngFromDegrees(35.6938, 139.7034) // 新宿駅の座標
-	fmt.Printf("緯度=%f 経度=%f（ラジアン表現）\n", l.Lat, l.Lng)
-	fmt.Printf("緯度=%f 経度=%f（度数表現）\n", l.Lat.Degrees(), l.Lng.Degrees())
-	fmt.Printf("IsValid=%v\n", l.IsValid())
+	// ダメな例 長さが 1 ではないベクトルを生成できてしまう
+	p3 := s2.Point{Vector: r3.Vector{X: 10, Y: 0, Z: 0}}
+	fmt.Printf("p3 (%f %f %f) 長さが 1 ですか？ %v\n", p3.X, p3.Y, p3.Z, p3.IsUnit())
 
-	// 注意
-	// String関数は度数表現を出力する
-	// （実際には、Lat Lng はラジアン表現の値が格納されている）
-	fmt.Printf("String %s\n", l.String())
-	fmt.Printf("String %s\n", l)
-
-	// ダメな例
-	l = s2.LatLng{Lat: 35.6938, Lng: 139.7034} // 新宿駅の座標を誤って設定
-	fmt.Printf("緯度=%f 経度=%f（ラジアン表現）誤\n", l.Lat, l.Lng)
-	fmt.Printf("緯度=%f 経度=%f（度数表現）誤\n", l.Lat.Degrees(), l.Lng.Degrees())
-	fmt.Printf("IsValid=%v\n", l.IsValid())
-
-	// LatLngの比較演算
-	l1 := s2.LatLngFromDegrees(35.6938, 139.7034)
-	l2 := s2.LatLngFromDegrees(35.6938, 139.7034)
-	l3 := s2.LatLngFromDegrees(38.2682, 140.8694)
-	fmt.Printf("l1 === l2 %v\n", l1.ApproxEqual(l2))
-	fmt.Printf("l1 === l3 %v\n", l1.ApproxEqual(l3))
+	// 緯度経度から Point 構造体の生成
+	p4 := s2.PointFromLatLng(s2.LatLngFromDegrees(90, 0)) // 北極
+	fmt.Printf("p4 (%f %f %f) 長さが 1 ですか？ %v\n", p4.X, p4.Y, p4.Z, p4.IsUnit())
+	p5 := s2.PointFromLatLng(s2.LatLngFromDegrees(-90, 0)) // 南極
+	fmt.Printf("p5 (%f %f %f) 長さが 1 ですか？ %v\n", p5.X, p5.Y, p5.Z, p5.IsUnit())
 }
